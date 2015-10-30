@@ -1,8 +1,8 @@
 <html>
 <body>
-Welcome back, {{username}}!
+Welcome back, {{username}}!<form action="log-out" method="post"><button type="submit" name="log-out">logout</button></form>
 <form action="choose-food" method="post">
-    <input type="text" placeholder="Choose Concession" name="foodname"/>
+    <input type="text" placeholder="Choose Food Items" name="foodname"/>
     <select name="concessiontype">
         <option value="Hot Dog">Hot Dog</option>
         <option value="Burger">Burger</option>
@@ -11,8 +11,9 @@ Welcome back, {{username}}!
     </select>
     <button type="submit">Submit</button>
 </form>
+
 <form action="choose-drink" method="post">
-    <input type="text" placeholder="Choose Concession" name="drinkname"/>
+    <input type="text" placeholder="Choose Drinks" name="drinkname"/>
     <select name="drinktype">
         <option value="Beer">Beer</option>
         <option value="Juice">Juice</option>
@@ -21,8 +22,14 @@ Welcome back, {{username}}!
     </select>
     <button type="submit">Submit</button>
 </form>
-{{#beers}}
-{{name}}<br>
-{{/beers}}
+
+<form action="Remove-Concession" method="post">
+    <input type="number" placeholder="Concession #" name="concessionId"/>
+    <button type="submit">Delete</button>
+
+</form>
+{{#concessions}}
+{{id}}. {{name}} {{type}}<br>
+{{/concessions}}
 </body>
 </html>

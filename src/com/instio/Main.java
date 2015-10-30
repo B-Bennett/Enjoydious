@@ -25,6 +25,7 @@ public class Main {
                     }
                     HashMap m = new HashMap();
                     m.put("username", username);
+                    m.put("password", password);
                     m.put("concessions", concessions);
                     return new ModelAndView(m, "logout.html");
                 }),
@@ -41,22 +42,16 @@ public class Main {
                         Spark.halt(403);
                     }
 
-
-                    WeakHashMap<Object, Object> users = null;
-                    User user = users.get(username);
+                    User user = new User();
                     if (user == null) {
                         user = new User();
                         user.password = password;
-                        users.put(username, user);
-                    }
-                    else if (!password.equals(user.password)) {
-                        Spark.halt(403);
                     }
 
                     Session session = request.session();
                     session.attribute("username", username);
 
-                    response.redirect(request.headers("/"));
+                    response.redirect("/");
                     return "";
                 })
         );
@@ -81,6 +76,23 @@ public class Main {
                     concession.name = request.queryParams("drinkname");
                     concession.type = request.queryParams("drinktype");
                     concessions.add(concession);
+                    response.redirect("/");
+                    return "";
+                })
+        );
+        Spark.post(
+                "/Remove-Concession",
+                ((request, response) -> {
+                    String id = request.queryParams("concessionId");
+                    try {
+                        int idNum = Integer.valueOf(id);
+                        concessions.remove(idNum-1);
+                        for (int i = 0; i < concessions.size(); i++) {
+                            concessions.get(i).id = i + 1; //changes the number when you delete a beer
+                        }
+                    }catch (Exception e) {
+
+                    }
                     response.redirect("/");
                     return "";
                 })
