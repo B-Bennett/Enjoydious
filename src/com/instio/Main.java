@@ -7,6 +7,7 @@ import spark.template.mustache.MustacheTemplateEngine;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.WeakHashMap;
 
 public class Main {
 
@@ -28,6 +29,36 @@ public class Main {
                     return new ModelAndView(m, "logout.html");
                 }),
                 new MustacheTemplateEngine()
+        );
+        Spark.post(
+                "login",
+                ((request, response) ->  {
+                    String username = request.queryParams("username");
+                    String password = request.queryParams("password");
+
+                    //send down an error code if uname or pass ont entered
+                    if (username.isEmpty() || password.isEmpty()) {
+                        Spark.halt(403);
+                    }
+
+
+                    WeakHashMap<Object, Object> users = null;
+                    User user = users.get(username);
+                    if (user == null) {
+                        user = new User();
+                        user.password = password;
+                        users.put(username, user);
+                    }
+                    else if (!password.equals(user.password)) {
+                        Spark.halt(403);
+                    }
+
+                    Session session = request.session();
+                    session.attribute("username", username);
+
+                    response.redirect(request.headers("/"));
+                    return "";
+                })
         );
         Spark.post(
                 "/choose-food",
