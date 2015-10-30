@@ -59,10 +59,14 @@ public class Main {
         Spark.post(
                 "/choose-food",
                 ((request, response) -> {
+                    Session session = request.session();
+                    String username = session.attribute("username");
+
                     Concession concession = new Concession();
                     concession.id = concessions.size() + 1;
                     concession.name = request.queryParams("foodname");
                     concession.type = request.queryParams("concessiontype");
+                    concession.username = username;
                     concessions.add(concession);
                     response.redirect("/");
                     return "";
@@ -72,10 +76,14 @@ public class Main {
         Spark.post(
                 "/choose-drink",
                 ((request, response) -> {
+                    Session session = request.session();
+                    String username = session.attribute("username");
+
                     Concession concession = new Concession();
                     concession.id = concessions.size() + 1;
                     concession.name = request.queryParams("drinkname");
                     concession.type = request.queryParams("drinktype");
+                    concession.username = username;
                     concessions.add(concession);
                     response.redirect("/");
                     return "";
@@ -98,34 +106,50 @@ public class Main {
                     return "";
                 })
         );
-        Spark.post(
+        /*Spark.post(
                 "/edit-order",
                 ((request, response) -> {
-                    String editId = request.queryParams("edit_id");
-                    try{
-                        int editIdNum = Integer.valueOf(editId);
-                        concessions.get(editIdNum - 1).text = request.queryParams("edit_text");
-                        for (int i = 0; i < postList.size(); i++) {
-                            postList.get(i).id = i + 1;
-                        }
-                    }
-                    catch(Exception e){
+                    Session session = request.session();
+                    String username = session.attribute("username");
+
+                    if (username == null) {
+                        Spark.halt(403);
                     }
 
+                    String username = request.queryParams("replyId");
+                    String text = request.queryParams("text");
+                    try {
+                        int idNum = Integer.valueOf(idNum);
+                        Concession concession = new Concession(concessions.size()username, text);
+                        concessions.add(concession);
+                    }catch (Exception e) {
+
+                    }
+                    response.redirect("/");
+                    return "";
+                })
+        );*/
+        Spark.post(
+                "/log-out",
+                ((request, response) -> {
+                    Session session = request.session();
+                    session.invalidate();
                     response.redirect("/");
                     return "";
                 })
         );
-        Spark.post(
-                "/log-out",
-                ((request, response) -> {
-                    Session session = request.getSession().invalidate();
+        Spark.get(
+                "edit-concession",
+                ((request, response) ->  {
+                    Session session = request.session();
+                    String username = session.attribute("username");
 
+                    HashMap m = new HashMap();
+                    m.put("username", username);
 
-
-                })
-
-
+                    return new ModelAndView(m, "edit.html");
+                }),
+                new MustacheTemplateEngine()
         );
 
     }//public void main

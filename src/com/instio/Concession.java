@@ -7,6 +7,5 @@ public class Concession {
     String name;
     String type;
     int id;
-
-
+    String username;
 }

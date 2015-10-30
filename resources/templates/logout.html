@@ -1,29 +1,31 @@
 <html>
-<body>
+<>
 Welcome back, {{username}}!
 <form action="log-out" method="post">
     <button type="submit" name="log-out">logout</button>
 </form>
 
 <form action="choose-food" method="post">
-    <input type="text" placeholder="Choose Food Items" name="foodname"/>
     <select name="concessiontype">
-        <option value="Hot Dog">Hot Dog</option>
+        <option value="Hot Dog">Hot Dog </option>
         <option value="Burger">Burger</option>
         <option value="Pizza">Pizza</option>
         <option value="Fries">Fries</option>
     </select>
+    <input type="text" typeof="number" placeholder="How Many Orders?" name="foodname"/>
+
     <button type="submit">Submit</button>
 </form>
 
 <form action="choose-drink" method="post">
-    <input type="text" placeholder="Choose Drinks" name="drinkname"/>
     <select name="drinktype">
         <option value="Beer">Beer</option>
         <option value="Juice">Juice</option>
         <option value="Soda">Soda</option>
         <option value="Water">Water</option>
     </select>
+    <input type="text" placeholder="How Many Drinks?" name="drinkname"/>
+
     <button type="submit">Submit</button>
 </form>
 
@@ -33,7 +35,7 @@ Welcome back, {{username}}!
 
 </form>
 {{#concessions}}
-{{id}}. {{name}} {{type}}<br>
+{{id}}. {{name}} {{type}} {{username}} <a href="edit-concession">Edit</a> <br>
 {{/concessions}}
 </body>
 </html>
