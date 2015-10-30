@@ -1,5 +1,6 @@
 package com.instio;
 
+import org.eclipse.jetty.server.Request;
 import spark.ModelAndView;
 import spark.Session;
 import spark.Spark;
@@ -96,6 +97,35 @@ public class Main {
                     response.redirect("/");
                     return "";
                 })
+        );
+        Spark.post(
+                "/edit-order",
+                ((request, response) -> {
+                    String editId = request.queryParams("edit_id");
+                    try{
+                        int editIdNum = Integer.valueOf(editId);
+                        concessions.get(editIdNum - 1).text = request.queryParams("edit_text");
+                        for (int i = 0; i < postList.size(); i++) {
+                            postList.get(i).id = i + 1;
+                        }
+                    }
+                    catch(Exception e){
+                    }
+
+                    response.redirect("/");
+                    return "";
+                })
+        );
+        Spark.post(
+                "/log-out",
+                ((request, response) -> {
+                    Session session = request.getSession().invalidate();
+
+
+
+                })
+
+
         );
 
     }//public void main
