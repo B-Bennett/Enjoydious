@@ -17,25 +17,9 @@ Welcome back, {{username}}!
     <button type="submit">Submit</button>
 </form>
 
-<form action="choose-drink" method="post">
-    <select name="drinktype">
-        <option value="Beer">Beer</option>
-        <option value="Juice">Juice</option>
-        <option value="Soda">Soda</option>
-        <option value="Water">Water</option>
-    </select>
-    <input type="text" placeholder="How Many Drinks?" name="drinkname"/>
 
-    <button type="submit">Submit</button>
-</form>
-
-<form action="Remove-Concession" method="post">
-    <input type="number" placeholder="Concession #" name="concessionId"/>
-    <button type="submit">Delete</button>
-
-</form>
 {{#concessions}}
-{{id}}. {{name}} {{type}} <a href="edit-concession">{{username}}-Edit</a> <br>
+{{id}}. {{name}} {{type}} by {{username}} <a href="edit-concession?id={{id}}">Edit</a> <a href="remove-concession?id={{id}}">Delete</a><br>
 {{/concessions}}
 </body>
 </html>

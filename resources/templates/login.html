@@ -5,5 +5,8 @@
     <input type="text" placeholder="Password" name="password"/>
     <button type="submit">Login or Create Account</button>
 </form>
+{{#concessions}}
+{{id}}. {{name}} {{type}} by <a href="edit-concession">{{username}}</a><br>
+{{/concessions}}
 </body>
 </html>

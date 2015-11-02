@@ -21,19 +21,19 @@ public class Main {
                     Session session = request.session();
                     String username = session.attribute("username");//read username
                     String password = request.queryParams("password");
-                    if (username == null) { //if user is not logged in
-                        return new ModelAndView(new HashMap(), "login.html");
-                    }
                     HashMap m = new HashMap();
                     m.put("username", username);
                     m.put("password", password);
                     m.put("concessions", concessions);
+                    if (username == null) { //if user is not logged in
+                        return new ModelAndView(m, "login.html");
+                    }
                     return new ModelAndView(m, "logout.html");
                 }),
                 new MustacheTemplateEngine()
         );
         Spark.post(
-                "login",
+                "/login",
                 ((request, response) ->  {
                     String username = request.queryParams("username");
                     String password = request.queryParams("password");
@@ -73,26 +73,10 @@ public class Main {
                 })
         );
 
-        Spark.post(
-                "/choose-drink",
+        Spark.get(
+                "/remove-concession",
                 ((request, response) -> {
-                    Session session = request.session();
-                    String username = session.attribute("username");
-
-                    Concession concession = new Concession();
-                    concession.id = concessions.size() + 1;
-                    concession.name = request.queryParams("drinkname");
-                    concession.type = request.queryParams("drinktype");
-                    concession.username = username;
-                    concessions.add(concession);
-                    response.redirect("/");
-                    return "";
-                })
-        );
-        Spark.post(
-                "/Remove-Concession",
-                ((request, response) -> {
-                    String id = request.queryParams("concessionId");
+                    String id = request.queryParams("id");
                     try {
                         int idNum = Integer.valueOf(id);
                         concessions.remove(idNum-1);
@@ -139,17 +123,39 @@ public class Main {
                 })
         );
         Spark.get(
-                "edit-concession",
+                "/edit-concession",
                 ((request, response) ->  {
                     Session session = request.session();
-                    String username = session.attribute("username");
+                    String username= session.attribute("username");
+                    String id = request.queryParams("id");
 
                     HashMap m = new HashMap();
                     m.put("username", username);
+                    m.put("id", id);
+
 
                     return new ModelAndView(m, "edit.html");
                 }),
                 new MustacheTemplateEngine()
+        );
+        Spark.post(
+                "/edit-concession",
+                ((request, response) -> {
+                    String id = request.queryParams("id");
+                    String name = request.queryParams("foodname");
+                    String type = request.queryParams("concessiontype");
+                    try {
+                        int idNum = Integer.valueOf(id);
+                        Concession concession = concessions.get(idNum - 1);
+                        concession.name = name;
+                        concession.type = type;
+                    } catch (Exception e) {
+
+                    }
+                    response.redirect("/");
+
+                    return "";
+                })
         );
 
     }//public void main
