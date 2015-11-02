@@ -1,5 +1,5 @@
 <html>
-<>
+<body>
 Welcome back, {{username}}!
 <form action="log-out" method="post">
     <button type="submit" name="log-out">logout</button>
@@ -35,7 +35,7 @@ Welcome back, {{username}}!
 
 </form>
 {{#concessions}}
-{{id}}. {{name}} {{type}} {{username}} <a href="edit-concession">Edit</a> <br>
+{{id}}. {{name}} {{type}} <a href="edit-concession">{{username}}-Edit</a> <br>
 {{/concessions}}
 </body>
 </html>

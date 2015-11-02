@@ -1,5 +1,33 @@
 <html>
 <body>
 
+{{#concession}}
+<b>{{text}}</b> by {{username}}
+{{/concession}}<br><br>
+
+What Would You Like to change{{username}}?
+<form action="choose-food" method="post">
+    <select name="concessiontype">
+        <option value="Hot Dog">Hot Dog </option>
+        <option value="Burger">Burger</option>
+        <option value="Pizza">Pizza</option>
+        <option value="Fries">Fries</option>
+    </select>
+    <input type="text" typeof="number" placeholder="How Many Orders?" name="foodname"/>
+
+    <button type="submit">Submit</button>
+</form>
+
+<form action="choose-drink" method="post">
+    <select name="drinktype">
+        <option value="Beer">Beer</option>
+        <option value="Juice">Juice</option>
+        <option value="Soda">Soda</option>
+        <option value="Water">Water</option>
+    </select>
+    <input type="text" placeholder="How Many Drinks?" name="drinkname"/>
+
+    <button type="submit">Submit</button>
+</form>
 </body>
 </html>
